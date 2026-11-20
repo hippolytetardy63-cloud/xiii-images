@@ -1,0 +1,380 @@
+/* XIII Images — feuille de styles du site public.
+   Les valeurs reprennent les variables et styles de texte du fichier Figma « XIII Images — Portfolio ».
+   Ordinateur au-dessus de 768 px, mobile en dessous. */
+
+:root {
+  /* Couleurs (celles du logo) */
+  --fond: #0B0A0A;            /* couleur/fond */
+  --texte: #D9D9D9;           /* couleur/texte */
+  --discret: #8E8C8C;         /* couleur/texte-discret */
+
+  /* Espacements */
+  --marge: 64px;              /* espace/marge-ordinateur — 20 px sur mobile */
+  --gouttiere: 24px;          /* espace/gouttiere */
+  --menu: 40px;               /* espace/menu */
+  --respiration: 160px;       /* espace/respiration — 72 px sur mobile */
+  --h-photo: min(650px, 72vh);  /* hauteur d'une image seule ou d'un diptyque */
+
+  /* Polices — titres et menu : provisoire, à remplacer par la police du logo (ici seulement) */
+  --police-titre: "Cormorant Garamond", Garamond, "Times New Roman", serif;
+  --police-texte: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  color-scheme: dark;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --marge: 20px;            /* espace/marge-mobile */
+    --respiration: 72px;      /* espace/respiration-mobile */
+    --h-photo: 338px;
+  }
+}
+
+/* ---------- Base ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--texte);
+  font: 400 16px/1.6 var(--police-texte);       /* Texte/Courant */
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+a { color: inherit; text-decoration: none; }
+
+:focus-visible { outline: 1px solid var(--texte); outline-offset: 4px; }
+
+.visuellement-cache {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+.etiquette {                                    /* Texte/Étiquette */
+  margin: 0;
+  font: 500 12px/1.4 var(--police-texte);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--discret);
+}
+
+/* ---------- En-tête et menu ---------- */
+
+.entete {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--menu) var(--marge);
+}
+
+.entete--sur-photo { position: absolute; inset: 0 0 auto; }
+
+.logo img { width: 240px; }
+
+.menu {                                         /* Menu/Ordinateur */
+  display: flex;
+  gap: var(--menu);
+  font: 400 22px/1.2 var(--police-titre);
+  letter-spacing: .01em;
+}
+
+.menu a { color: var(--discret); transition: color .2s; }
+.menu a:hover,
+.menu a[aria-current="page"],
+.entete--sur-photo .menu a { color: var(--texte); }
+
+.menu-mobile { display: none; }
+
+/* ---------- Accueil ---------- */
+
+.accueil {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.accueil__photo { width: 100%; height: 100%; object-fit: cover; }
+
+.accueil::after {                               /* voile : garde le logo et le menu lisibles */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 280px;
+  background: linear-gradient(rgb(11 10 10 / .55), rgb(11 10 10 / 0));
+  pointer-events: none;
+}
+
+/* ---------- Galeries ---------- */
+
+.galerie-titre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px var(--gouttiere);
+  padding: 48px var(--marge) 0;
+}
+
+.galerie-titre h1 {                             /* Titre/Galerie */
+  margin: 0;
+  font: 300 clamp(56px, 8.34vw, 120px)/1 var(--police-titre);
+  letter-spacing: -.01em;
+}
+
+.galerie-titre__rubrique { flex-basis: 100%; margin: 0 0 4px; }
+.galerie-titre__rubrique a { transition: color .2s; }
+.galerie-titre__rubrique a:hover { color: var(--texte); }
+
+.galerie-titre .etiquette a { text-decoration: underline; text-underline-offset: 3px; transition: color .2s; }
+.galerie-titre .etiquette a:hover { color: var(--texte); }
+
+/* Rubrique (Paysages, Portrait) : après ses photos, ses collections, chacune avec sa première photo en couverture */
+.collections { scroll-margin-top: 24px; }
+.collections__titre {                           /* Titre/Galerie mobile */
+  margin: 0;
+  padding: 0 var(--marge);
+  font: 300 56px/1 var(--police-titre);
+  letter-spacing: -.01em;
+}
+.collections .series { padding-top: 48px; }
+
+.series {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 72px var(--gouttiere);
+  padding: 96px var(--marge) 120px;
+}
+.serie-carte { display: flex; flex-direction: column; gap: 8px; }
+.serie-carte__image { display: block; aspect-ratio: 4 / 5; overflow: hidden; margin-bottom: 12px; background: #151414; }
+.serie-carte__image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: opacity .3s; }
+.serie-carte:hover img { opacity: .75; }
+.serie-carte__titre {                           /* Titre/Galerie mobile, réduit */
+  font: 300 40px/1.05 var(--police-titre);
+  letter-spacing: -.01em;
+}
+
+@media (min-width: 1200px) {
+  .series { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .serie-carte__titre { font-size: 36px; }
+}
+@media (max-width: 1023px) {
+  .series { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.galerie {
+  display: flex;
+  flex-direction: column;
+  gap: var(--respiration);
+  padding: 96px 0 120px;
+}
+
+.galerie__vide { margin: 0; padding: 0 var(--marge); color: var(--discret); }
+
+.module { margin: 0; }
+.module a { display: block; cursor: zoom-in; }
+
+/* Plein cadre : d'un bord à l'autre */
+.module--plein img { width: 100%; }
+
+/* Image seule : centrée, entourée de noir */
+.module--seule { display: flex; justify-content: center; }
+.module--seule img { width: min(calc(100vw - 2 * var(--marge)), 1000px, calc(var(--h-photo) * var(--r))); }
+
+/* Diptyque : deux photos côte à côte, à la même hauteur */
+.module--diptyque {
+  display: flex;
+  gap: var(--gouttiere);
+  width: min(calc(100% - 2 * var(--marge)), 1000px, calc(var(--h-photo) * var(--somme) + var(--gouttiere)));
+  margin-inline: auto;
+}
+.module--diptyque .module__photo { flex: var(--r) 1 0; min-width: 0; }
+.module--diptyque img { width: 100%; }
+
+.galerie-pied {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px var(--marge) 120px;
+  text-align: center;
+}
+
+.galerie-pied__lien {                           /* Titre/Galerie mobile */
+  font: 300 56px/1 var(--police-titre);
+  letter-spacing: -.01em;
+  transition: opacity .2s;
+}
+.galerie-pied__lien:hover { opacity: .7; }
+
+/* ---------- Visionneuse ---------- */
+
+.visionneuse {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100vh;
+  height: 100svh;
+}
+
+.visionneuse__zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 45px var(--marge);
+}
+
+.visionneuse__image { display: block; cursor: e-resize; }
+.visionneuse__image img { width: min(calc(100vw - 2 * var(--marge)), calc((100svh - 180px) * var(--r))); }
+
+.visionneuse__barre {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px var(--marge);
+  font: 400 22px/1.2 var(--police-titre);     /* Compteur */
+  letter-spacing: .02em;
+}
+
+.visionneuse__compteur { margin: 0; }
+
+.visionneuse__commandes { display: flex; gap: 12px; margin-right: -12px; color: var(--discret); }
+.visionneuse__commandes a { padding: 4px 12px; transition: color .2s; }
+.visionneuse__commandes a:hover { color: var(--texte); }
+
+/* ---------- Hippo ---------- */
+
+.hippo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--marge);
+  min-height: calc(100svh - 119px);
+  padding: 0 var(--marge) 119px;
+}
+
+.hippo__photo { flex: none; width: min(440px, 40vw); }
+
+.hippo__texte {
+  display: flex;
+  flex-direction: column;
+  gap: var(--menu);
+  max-width: 420px;
+  min-width: 0;
+}
+
+.hippo__titre {
+  margin: 0;
+  font: 300 clamp(56px, 8.34vw, 120px)/1 var(--police-titre);
+  letter-spacing: -.01em;
+}
+
+.hippo__presentation { color: var(--discret); }
+.hippo__presentation p { margin: 0 0 1em; }
+.hippo__presentation p:last-child { margin-bottom: 0; }
+
+.hippo__contact { display: flex; flex-direction: column; gap: 12px; }
+
+.hippo__liens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin: 0;
+  font: 400 22px/1.2 var(--police-titre);
+  letter-spacing: .01em;
+}
+.hippo__liens span { color: var(--discret); }
+.hippo__liens a { transition: opacity .2s; }
+.hippo__liens a:hover { opacity: .7; }
+
+/* ---------- Page introuvable ---------- */
+
+.introuvable {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 96px var(--marge) 160px;
+}
+.introuvable h1 { margin: 0; font: 300 clamp(40px, 5vw, 64px)/1.05 var(--police-titre); }
+.introuvable__lien { font: 400 22px/1.2 var(--police-titre); border-bottom: 1px solid var(--discret); }
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 767px) {
+  .entete { padding: 24px var(--marge); }
+  .logo img { width: 150px; }
+  .menu { display: none; }
+
+  /* Menu mobile : « Menu » ouvre un panneau plein écran, « Fermer » le referme (sans JavaScript) */
+  .menu-mobile { display: block; }
+  .menu-mobile > summary {                      /* Menu/Mobile barre */
+    list-style: none;
+    cursor: pointer;
+    padding: 4px 0;
+    font: 400 18px/1.2 var(--police-titre);
+    letter-spacing: .01em;
+  }
+  .menu-mobile > summary::-webkit-details-marker { display: none; }
+  .menu-mobile__fermer, .menu-mobile[open] .menu-mobile__ouvrir { display: none; }
+  .menu-mobile[open] .menu-mobile__fermer { display: inline; }
+
+  .menu-mobile__panneau {
+    position: fixed;
+    inset: 0;
+    z-index: -1;                                /* sous le logo et « Fermer », au-dessus de la page */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(120px, 35.5svh, 300px) var(--marge) var(--menu);
+    background: var(--fond);
+  }
+  .menu-mobile__liens {                         /* Menu/Mobile plein écran */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font: 300 52px/1.1 var(--police-titre);
+  }
+  .menu-mobile__instagram { color: var(--texte); align-self: flex-start; }
+  body:has(.menu-mobile[open]) { overflow: hidden; }
+
+  .accueil::after { height: 200px; }
+
+  .galerie-titre { padding: 24px var(--marge) 0; }
+  .galerie { padding: 48px 0 72px; }
+  .series { grid-template-columns: minmax(0, 1fr); gap: 56px; padding: 48px var(--marge) 72px; }
+  .collections__titre { font-size: 44px; }
+  .collections .series { padding-top: 32px; }
+  .serie-carte__titre { font-size: 32px; }
+  .module--diptyque { flex-direction: column; gap: 12px; width: calc(100% - 2 * var(--marge)); }
+  .module--diptyque .module__photo { flex: none; }
+  .galerie-pied { padding-bottom: 72px; }
+
+  .visionneuse__zone { padding: 24px 0; }
+  .visionneuse__image img { width: min(100vw, calc((100svh - 138px) * var(--r))); }
+
+  .hippo {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--gouttiere);
+    min-height: 0;
+    padding: 24px var(--marge) 72px;
+  }
+  .hippo__photo { width: 100%; }
+  .hippo__texte { max-width: none; gap: var(--gouttiere); }
+  .hippo__titre { font-size: 56px; }
+  .hippo__contact { padding-top: 16px; }
+  .hippo__liens { gap: 12px; font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
